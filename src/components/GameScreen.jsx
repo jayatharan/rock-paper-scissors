@@ -43,24 +43,26 @@ const GameScreen = () => {
             }}>
                 {yourChoice != null ? <Result yourChoice={yourChoice} playAgain={playAgain} /> : <PickAnAction pickAnAction={pickAnAction} />}
             </Box>
-            <Fab color="error" aria-label="exit" sx={{
-                position: "absolute",
-                right: 2,
-                bottom: 2
-            }}>
-                <Tooltip title={
-                    <Box sx={{
-                        background: "#d32f2f",
-                        p: 1,
-                        color: "white",
-                        borderRadius: 1
-                    }}>
-                        Quit Game
-                    </Box>
-                } arrow onClick={openQuitGameConfirmation} >
-                    <ExitToAppIcon />
-                </Tooltip>
-            </Fab>
+            {!quitGame && (
+                <Fab color="error" aria-label="exit" sx={{
+                    position: "absolute",
+                    right: 2,
+                    bottom: 2
+                }}>
+                    <Tooltip title={
+                        <Box sx={{
+                            background: "#d32f2f",
+                            p: 1,
+                            color: "white",
+                            borderRadius: 1
+                        }}>
+                            Quit Game
+                        </Box>
+                    } arrow onClick={openQuitGameConfirmation} >
+                        <ExitToAppIcon />
+                    </Tooltip>
+                </Fab>
+            )}
         </Stack>
     );
 }
