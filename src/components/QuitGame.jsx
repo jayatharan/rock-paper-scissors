@@ -2,12 +2,14 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography }
 import { useSetRecoilState } from "recoil"
 import ScoreState from "../recoil/scoreState"
 import GameStatusState from "../recoil/gameStatusState";
+import GameHistoryState from "../recoil/gameHistory";
 
 /* eslint-disable react/prop-types */
 const QuitGame = ({ open, cancel }) => {
 
     const setScore = useSetRecoilState(ScoreState);
     const setGameStatus = useSetRecoilState(GameStatusState);
+    const setGameHistory = useSetRecoilState(GameHistoryState);
 
     const quitGame = () => {
         setScore({
@@ -15,6 +17,7 @@ const QuitGame = ({ open, cancel }) => {
             opponentScore: 0,
         })
         setGameStatus("initial")
+        setGameHistory([])
     }
 
     return (

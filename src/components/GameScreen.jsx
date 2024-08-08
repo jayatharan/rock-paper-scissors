@@ -6,17 +6,21 @@ import { useCallback, useState } from "react";
 import Result from "./Result";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import QuitGame from "./QuitGame";
+import HistoryIcon from '@mui/icons-material/History';
+import GameHistory from "./GameHistory";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const GameScreen = () => {
     const score = useRecoilValue(ScoreState);
     const [yourChoice, setYourChoice] = useState(null)
     const [quitGame, setQuitGame] = useState(false)
+    const [showGameHistory, setShowGameHistory] = useState(false);
 
     const pickAnAction = (choice) => {
         setYourChoice(choice)
     }
 
-    const playAgain = useCallback(()=> {
+    const playAgain = useCallback(() => {
         setYourChoice(null)
     }, [setYourChoice])
 
@@ -41,28 +45,44 @@ const GameScreen = () => {
             <Box sx={{
                 pt: 3
             }}>
-                {yourChoice != null ? <Result yourChoice={yourChoice} playAgain={playAgain} /> : <PickAnAction pickAnAction={pickAnAction} />}
+                {showGameHistory ? <GameHistory /> : yourChoice != null ? <Result yourChoice={yourChoice} playAgain={playAgain} /> : <PickAnAction pickAnAction={pickAnAction} />}
             </Box>
-            {!quitGame && (
-                <Fab color="error" aria-label="exit" sx={{
-                    position: "absolute",
-                    right: 2,
-                    bottom: 2
-                }}>
+            <Stack spacing={1} sx={{
+                position: "absolute",
+                right: 2,
+                bottom: 2
+            }}>
+                <Fab color="primary" aria-label="history" onClick={() => setShowGameHistory(prev => !prev)}>
                     <Tooltip title={
                         <Box sx={{
-                            background: "#d32f2f",
+                            background: "#1976d2",
                             p: 1,
                             color: "white",
                             borderRadius: 1
                         }}>
-                            Quit Game
+                            {showGameHistory ? "Continue Game" : "Game History"}
                         </Box>
-                    } arrow onClick={openQuitGameConfirmation} >
-                        <ExitToAppIcon />
+                    } arrow >
+                        {showGameHistory ? <PlayArrowIcon /> : <HistoryIcon /> }
                     </Tooltip>
                 </Fab>
-            )}
+                {!quitGame && (
+                    <Fab color="error" aria-label="exit" onClick={openQuitGameConfirmation}>
+                        <Tooltip title={
+                            <Box sx={{
+                                background: "#d32f2f",
+                                p: 1,
+                                color: "white",
+                                borderRadius: 1
+                            }}>
+                                Quit Game
+                            </Box>
+                        } arrow >
+                            <ExitToAppIcon />
+                        </Tooltip>
+                    </Fab>
+                )}
+            </Stack>
         </Stack>
     );
 }
